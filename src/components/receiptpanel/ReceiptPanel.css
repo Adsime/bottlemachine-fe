@@ -1,0 +1,11 @@
+.receiptPanel {
+    height: 15em;
+    width: 30em;
+    background: lightblue;
+    color: #1a1a1a;
+}
+
+input {
+    background: lightblue;
+    color: #1a1a1a;
+}

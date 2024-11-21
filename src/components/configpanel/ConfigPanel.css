@@ -1,0 +1,13 @@
+.configPanel {
+    height: 15em;
+    width: 30em;
+    background: lightblue;
+    color: #1a1a1a;
+    border-radius: 1em;
+    border: 10px solid darkslategray;
+}
+
+input {
+    background: lightblue;
+    color: #1a1a1a;
+}

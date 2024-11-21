@@ -1,0 +1,11 @@
+.overviewPanel {
+    width: 30em;
+    background: lightblue;
+    color: #1a1a1a;
+    border-radius: 1em;
+    border: 10px solid darkslategray;
+}
+
+.overviewButton {
+    margin-bottom: 1em;
+}

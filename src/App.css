@@ -1,0 +1,29 @@
+#root {
+  display: flex;
+  width: 100vw;
+}
+
+.column {
+  width: 33.3%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.circle {
+  background: radial-gradient(black, gray);
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  border-radius: 50%;
+  border: 15px solid darkslategray;
+}
+
+.vessel {
+  height: 5em;
+  width: 10em;
+}
+
