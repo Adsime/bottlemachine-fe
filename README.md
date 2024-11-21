@@ -1,50 +1,45 @@
-# React + TypeScript + Vite
+# Bottle machine front end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Prerequisites
 
-Currently, two official plugins are available:
+Made with Node 20.15.0
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to start
 
-## Expanding the ESLint configuration
+``npm install``
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+``npm run dev``
 
-- Configure the top-level `parserOptions` property like this:
+## Task
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+> #### RS-001
+> **As** a drinks' manufacturer,  
+> **I'd like** the system to accept empty bottles  
+> **So that** we can reacquire used bottles for recycling
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+> #### RS-002
+> **As** a drinks' manufacturer,  
+> **I'd like** the system to accept empty cans,  
+> **So that** we can reacquire used cans for recycling.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+> #### RS-003
+> **As** a customer,  
+> **I'd like** the system to give me a voucher as a reward for turning in bottles,  
+> **So that** I can buy stuff
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+> #### RS-004
+> **As** a drinks' manufacturer,  
+> **I'd like** a backend system to log whenever a bottle/can is turned in or a voucher is printed,  
+> **So that** we can report the efficiency of each recycling station.
+
+#### Specifications and Clarifications
+
+* *Cans* are valued at 2 NOK each.
+* *Bottles* are valued at 3 NOK each.
+* Inputting a bottle/can should be represented through a UI element, e.g. a button or a console prompt.
+* For the purposes of this application, it is enough to present the printed voucher on screen next to the bottle inputs.
+* You can assume that all containers have a valid sticker on it for valid identification.
+* The hardware running on the recycling machine is able to process a can at a rate of 0,5 per second and for the plastic bottles it's 1 per second.
+
+## Assumptions
+* RS-004, 'log' is assumed to mean store an entry in a db and provide the total result as an output when a voucher is requested

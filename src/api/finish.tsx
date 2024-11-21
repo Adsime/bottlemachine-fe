@@ -1,8 +1,11 @@
+import React from "react";
 
-function postFinish(setErrors: (errors: string[]) => void, sessionId?: string) {
+function postFinish(station: string, setErrors: (errors: string[]) => void, setShowReceipt: (value: React.SetStateAction<boolean>) => void, sessionId?: string) {
 
     const headers = {
         'Content-Type': 'application/json',
+        // @ts-ignore
+        'Station-Id': station
     }
 
     if (sessionId) {
@@ -21,6 +24,7 @@ function postFinish(setErrors: (errors: string[]) => void, sessionId?: string) {
 
             if (response.ok) {
                 setErrors([])
+                setShowReceipt(true)
             } else {
                 setErrors(json.errors)
             }

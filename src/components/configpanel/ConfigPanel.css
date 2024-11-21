@@ -11,3 +11,8 @@ input {
     background: lightblue;
     color: #1a1a1a;
 }
+
+.fieldContainer {
+    text-align: right;
+    padding-right: 20%;
+}

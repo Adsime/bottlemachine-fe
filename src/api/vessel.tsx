@@ -1,9 +1,11 @@
 import {Session, Vessel} from "./types.tsx";
 
-function postVessel(vessel: Vessel, content: number, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
+function postVessel(vessel: Vessel, station: string, content: number, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
 
     const headers = {
         'Content-Type': 'application/json',
+        // @ts-ignore
+        'Station-Id': station
     }
 
     if (sessionId) {

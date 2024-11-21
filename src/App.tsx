@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 import ConfigPanel from "./components/configpanel/ConfigPanel.tsx";
 import OverviewPanel from "./components/overviewpanel/OverviewPanel.tsx";
@@ -19,31 +19,33 @@ function App() {
     const [content, setContent] = useState(5)
     const [errors, setErrors] = useState<string[]>([])
     const [showReceipt, setShowReceipt] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    const [station, setStation] = useState("station-1")
+
+    useEffect(() => {
+        if(!station) {
+            setDisabled(true)
+        } else if (station && disabled) {
+            setDisabled(false)
+        }
+    }, [station])
 
     const handleVessel = (vessel: Vessel) => {
         if (showReceipt && !errors) {
             setShowReceipt(false)
         }
 
-        postVessel(vessel, content, setSession, setErrors, session.sessionId)
+        setDisabled(true)
+        setTimeout(() => {
+            setDisabled(false)
+        }, (vessel == Vessel.BOTTLE) ? 1000 : 2000)
+        postVessel(vessel, station, content, setSession, setErrors, session.sessionId)
     }
 
     const finish = () => {
         if (session != defaultState) {
-            postFinish(setErrors, session.sessionId)
-            setShowReceipt(true)
+            postFinish(station, setErrors, setShowReceipt, session.sessionId)
         }
-    }
-
-    const onSessionIdChange = (sessionId: string) => {
-        setSession((prevSession) => ({
-            ...prevSession,
-            sessionId: sessionId
-        }))
-    }
-
-    const onContentsChange = (content: number) => {
-        setContent(content)
     }
 
     const mapErrors = () => errors.map(err => (<h2>{err}</h2>))
@@ -51,9 +53,9 @@ function App() {
     return (
         <>
             <div className={'column'}>
-                <ConfigPanel sessionId={session.sessionId} content={content} onSessionIdChange={onSessionIdChange} onContentsChange={onContentsChange} />
-                <button className={'vessel'} onClick={() => handleVessel(Vessel.BOTTLE)}>Pant flaske</button>
-                <button className={'vessel'} onClick={() => handleVessel(Vessel.CAN)}>Pant boks</button>
+                <ConfigPanel sessionId={session.sessionId} content={content} station={station} setSession={setSession} setContent={setContent} setStation={setStation} />
+                <button className={'vessel'} onClick={() => handleVessel(Vessel.BOTTLE)} disabled={disabled}>Pant flaske</button>
+                <button className={'vessel'} onClick={() => handleVessel(Vessel.CAN)} disabled={disabled}>Pant boks</button>
             </div>
 
             <div className={'column'}>
