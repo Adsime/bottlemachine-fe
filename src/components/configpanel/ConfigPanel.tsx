@@ -1,14 +1,12 @@
 import './ConfigPanel.css'
-import {Session} from "../../api/types.tsx";
+import {Config, Session} from "../../api/types.tsx";
 import React from "react";
 
 type Props = {
     sessionId?: string
-    content: number
-    station: string
+    config: Config
     setSession: (value: React.SetStateAction<Session>) => void
-    setContent: (value: React.SetStateAction<number>) => void
-    setStation: (value: React.SetStateAction<string>) => void
+    setConfig: (value: React.SetStateAction<Config>) => void
 }
 
 function ConfigPanel(props: Props) {
@@ -17,6 +15,20 @@ function ConfigPanel(props: Props) {
         props.setSession((prevSession: Session) => ({
             ...prevSession,
             sessionId: value
+        }))
+    }
+
+    const onContentChange = (value: number) => {
+        props.setConfig((prevConfig: Config) => ({
+            ...prevConfig,
+            content: value
+        }))
+    }
+
+    const onStationChange = (value: string) => {
+        props.setConfig((prevConfig: Config) => ({
+            ...prevConfig,
+            station: value
         }))
     }
 
@@ -30,10 +42,11 @@ function ConfigPanel(props: Props) {
                 </label>
                 <br/>
                 <label>Contents (5% threshold): <input type={"number"}
-                                                       onInput={e => props.setContent(parseInt(e.currentTarget.value))}
-                                                       value={props.content}/></label>
+                                                       onInput={(e) => onContentChange(parseInt(e.currentTarget.value))}
+                                                       value={props.config.content}/></label>
                 <br/>
-                <label>Station: <input type={"text"} value={props.station} onInput={e => props.setStation(e.currentTarget.value)}/></label>
+                <label>Station: <input type={"text"} value={props.config.station}
+                                       onInput={e => onStationChange(e.currentTarget.value)}/></label>
             </div>
         </div>
     );

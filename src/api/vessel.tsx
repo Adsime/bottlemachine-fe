@@ -1,11 +1,11 @@
-import {Session, Vessel} from "./types.tsx";
+import {Config, Session, Vessel} from "./types.tsx";
 
-function postVessel(vessel: Vessel, station: string, content: number, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
+function postVessel(vessel: Vessel, config: Config, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
 
     const headers = {
         'Content-Type': 'application/json',
         // @ts-ignore
-        'Station-Id': station
+        'Station-Id': config.station
     }
 
     if (sessionId) {
@@ -18,7 +18,7 @@ function postVessel(vessel: Vessel, station: string, content: number, setSession
         headers: headers,
         body: JSON.stringify({
             type: vessel,
-            content: content
+            content: config.content
         })
     }
 

@@ -5,6 +5,11 @@ export type Session = {
     subtotal: number
 }
 
+export type Config = {
+    content: number,
+    station: string
+}
+
 export enum Vessel {
     BOTTLE = "BOTTLE",
     CAN = "CAN"
