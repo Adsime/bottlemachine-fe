@@ -1,6 +1,6 @@
 import {Config, Session, Vessel} from "./types.tsx";
 
-function postVessel(vessel: Vessel, config: Config, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
+function callPostVessel(vessel: Vessel, config: Config, setSession: (session: Session) => void, setErrors: (errors: string[]) => void, sessionId?: string) {
 
     const headers = {
         'Content-Type': 'application/json',
@@ -35,4 +35,4 @@ function postVessel(vessel: Vessel, config: Config, setSession: (session: Sessio
         })
 }
 
-export default postVessel
+export default callPostVessel

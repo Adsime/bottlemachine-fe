@@ -1,52 +1,27 @@
 import './ConfigPanel.css'
-import {Config, Session} from "../../api/types.tsx";
-import React from "react";
+import useConfig from "../../hooks/useConfig.tsx";
+import useSession from "../../hooks/useSession.tsx";
 
-type Props = {
-    sessionId?: string
-    config: Config
-    setSession: (value: React.SetStateAction<Session>) => void
-    setConfig: (value: React.SetStateAction<Config>) => void
-}
+function ConfigPanel() {
 
-function ConfigPanel(props: Props) {
-
-    const onSessionIdChange = (value: string) => {
-        props.setSession((prevSession: Session) => ({
-            ...prevSession,
-            sessionId: value
-        }))
-    }
-
-    const onContentChange = (value: number) => {
-        props.setConfig((prevConfig: Config) => ({
-            ...prevConfig,
-            content: value
-        }))
-    }
-
-    const onStationChange = (value: string) => {
-        props.setConfig((prevConfig: Config) => ({
-            ...prevConfig,
-            station: value
-        }))
-    }
+    const { config, setContent, setStation } = useConfig()
+    const { session, setSessionId } = useSession()
 
     return (
         <div className={'configPanel'}>
             <h1>Configpanel</h1>
             <div className={'fieldContainer'}>
                 <label>SessionId: <input type={"text"}
-                                         onInput={(e) => onSessionIdChange(e.currentTarget.value)}
-                                         value={props.sessionId}/>
+                                         onInput={(e) => setSessionId(e.currentTarget.value)}
+                                         value={session.sessionId}/>
                 </label>
                 <br/>
                 <label>Contents (5% threshold): <input type={"number"}
-                                                       onInput={(e) => onContentChange(parseInt(e.currentTarget.value))}
-                                                       value={props.config.content}/></label>
+                                                       onInput={(e) => setContent(parseInt(e.currentTarget.value))}
+                                                       value={config.content}/></label>
                 <br/>
-                <label>Station: <input type={"text"} value={props.config.station}
-                                       onInput={e => onStationChange(e.currentTarget.value)}/></label>
+                <label>Station: <input type={"text"} value={config.station}
+                                       onInput={e => setStation(e.currentTarget.value)}/></label>
             </div>
         </div>
     );

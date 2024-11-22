@@ -2,28 +2,18 @@ import {useEffect, useState} from 'react'
 import './App.css'
 import ConfigPanel from "./components/configpanel/ConfigPanel.tsx";
 import OverviewPanel from "./components/overviewpanel/OverviewPanel.tsx";
-import {Config, Session, Vessel} from "./api/types.tsx";
-import postVessel from "./api/vessel.tsx";
+import {Vessel} from "./api/types.tsx";
 import ReceiptPanel from "./components/receiptpanel/ReceiptPanel.tsx";
-import postFinish from "./api/finish.tsx";
-import configPanel from "./components/configpanel/ConfigPanel.tsx";
-
-const defaultSession: Session = {
-    sessionId: "",
-    cans: 0,
-    bottles: 0,
-    subtotal: 0
-}
-
-const defaultConfig: Config = {
-    content: 5,
-    station: "station-1"
-}
+import useConfig from "./hooks/useConfig.tsx";
+import useError from "./hooks/useError.tsx";
+import useApi from "./hooks/useApi.tsx";
+import useSession from "./hooks/useSession.tsx";
 
 function App() {
-    const [session, setSession] = useState<Session>(defaultSession)
-    const [config, setConfig] = useState<Config>(defaultConfig)
-    const [errors, setErrors] = useState<string[]>([])
+    const {resetSession, isEmptySession} = useSession()
+    const {config} = useConfig()
+    const {errors} = useError()
+    const {postVessel, postFinish} = useApi()
     const [showReceipt, setShowReceipt] = useState(false)
     const [disabled, setDisabled] = useState(false)
 
@@ -38,20 +28,26 @@ function App() {
     const handleVessel = (vessel: Vessel) => {
         setDisabled(true)
 
+        postVessel(vessel)
+
         setTimeout(() => {
             setDisabled(false)
         }, (vessel == Vessel.BOTTLE) ? 1000 : 2000)
-        postVessel(vessel, config, setSession, setErrors, session.sessionId)
     }
 
     const finish = () => {
-        if (session != defaultSession) {
-            postFinish(config.station, setErrors, setShowReceipt, session.sessionId)
+        if (!isEmptySession()) {
+            postFinish().then((response) => {
+                    if (response.ok) {
+                        setShowReceipt(true)
+                    }
+                }
+            )
         }
     }
 
     const restart = () => {
-        setSession(defaultSession)
+        resetSession()
         setShowReceipt(false)
     }
 
@@ -60,8 +56,7 @@ function App() {
     return (
         <>
             <div className={'column'}>
-                <ConfigPanel sessionId={session.sessionId} config={config} setSession={setSession}
-                             setConfig={setConfig}/>
+                <ConfigPanel/>
                 {showReceipt ? <button className={"vessel"} onClick={restart}>Start på nytt</button> :
                     <>
                         <button className={'vessel'} onClick={() => handleVessel(Vessel.BOTTLE)}
@@ -84,7 +79,7 @@ function App() {
             </div>
 
             <div className={'column'}>
-                {showReceipt ? <ReceiptPanel {...session} /> : <OverviewPanel {...session} finishAction={finish}/>}
+                {showReceipt ? <ReceiptPanel /> : <OverviewPanel finishAction={finish}/>}
             </div>
         </>
     )

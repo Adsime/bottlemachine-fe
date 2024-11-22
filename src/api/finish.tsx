@@ -1,6 +1,6 @@
 import React from "react";
 
-function postFinish(station: string, setErrors: (errors: string[]) => void, setShowReceipt: (value: React.SetStateAction<boolean>) => void, sessionId?: string) {
+function callPostFinish(station: string, setErrors: (errors: string[]) => void, setShowReceipt: (value: React.SetStateAction<boolean>) => void, sessionId?: string) {
 
     const headers = {
         'Content-Type': 'application/json',
@@ -31,4 +31,4 @@ function postFinish(station: string, setErrors: (errors: string[]) => void, setS
         })
 }
 
-export default postFinish
+export default callPostFinish
